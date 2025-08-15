@@ -14,7 +14,6 @@ import { Toaster } from '@/components/ui/sonner';
 import type { trpc } from '@/utils/trpc';
 import '../index.css';
 import type { User } from 'better-auth';
-import { Footer } from '@/components/footer';
 import { authClient } from '@/lib/auth-client';
 
 export interface RouterAppContext {
@@ -63,14 +62,14 @@ function RootComponent() {
       <HeadContent />
       <ThemeProvider
         attribute="class"
-        defaultTheme="dark"
+        defaultTheme="system"
         disableTransitionOnChange
         storageKey="rts-build-orders-ui-theme"
       >
         <div className="relative h-svh">
           <Header />
           {isFetching ? <Loader /> : <Outlet />}
-          <Footer />
+          {/* <Footer /> */}
         </div>
         <Toaster richColors />
       </ThemeProvider>

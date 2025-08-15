@@ -1,4 +1,5 @@
 import { boolean, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import { timestamps } from '../utils';
 
 export const users = pgTable('users', {
   id: text('id').primaryKey(),
@@ -6,21 +7,19 @@ export const users = pgTable('users', {
   email: text('email').notNull().unique(),
   emailVerified: boolean('email_verified').notNull(),
   image: text('image'),
-  createdAt: timestamp('created_at').notNull(),
-  updatedAt: timestamp('updated_at').notNull(),
+  ...timestamps,
 });
 
 export const sessions = pgTable('sessions', {
   id: text('id').primaryKey(),
   expiresAt: timestamp('expires_at').notNull(),
   token: text('token').notNull().unique(),
-  createdAt: timestamp('created_at').notNull(),
-  updatedAt: timestamp('updated_at').notNull(),
   ipAddress: text('ip_address'),
   userAgent: text('user_agent'),
   userId: text('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
+  ...timestamps,
 });
 
 export const accounts = pgTable('accounts', {
@@ -37,8 +36,7 @@ export const accounts = pgTable('accounts', {
   refreshTokenExpiresAt: timestamp('refresh_token_expires_at'),
   scope: text('scope'),
   password: text('password'),
-  createdAt: timestamp('created_at').notNull(),
-  updatedAt: timestamp('updated_at').notNull(),
+  ...timestamps,
 });
 
 export const verificationTokens = pgTable('verification_tokens', {
@@ -46,6 +44,5 @@ export const verificationTokens = pgTable('verification_tokens', {
   identifier: text('identifier').notNull(),
   value: text('value').notNull(),
   expiresAt: timestamp('expires_at').notNull(),
-  createdAt: timestamp('created_at'),
-  updatedAt: timestamp('updated_at'),
+  ...timestamps,
 });

@@ -43,13 +43,13 @@ function RouteComponent() {
         </Badge>
 
         <h1 className="mb-4 text-balance text-center font-bold text-3xl text-foreground tracking-tight drop-shadow-lg sm:text-4xl md:mb-6 md:text-5xl lg:text-7xl">
-          Strategy Is Your Strongest Weapon
+          Stop Guessing Your First Moves
         </h1>
 
         <p className="mb-6 max-w-2xl px-2 text-base text-foreground/90 drop-shadow sm:text-lg md:mb-8 md:px-0">
-          Gain the edge with expertly crafted build orders that turn your
+          Gain the edge with build orders used by the pros that turn your
           opening moves into unstoppable momentum and keep you ahead until the
-          final blow.
+          final blow
         </p>
 
         <div className="w-full max-w-md px-4 sm:px-0">
@@ -82,6 +82,10 @@ function RouteComponent() {
                 <div className="group relative">
                   <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/20 to-accent/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100" />
 
+                  <p className="mb-2 text-foreground/80 text-sm leading-relaxed">
+                    Be the first to get notified when we launch
+                  </p>
+
                   <div className="relative flex items-center overflow-hidden rounded-lg border bg-card shadow-sm transition-all duration-300 group-focus-within:shadow-md group-focus-within:ring-2 group-focus-within:ring-ring/20 group-hover:shadow-md">
                     <div className="flex items-center pl-3 text-muted-foreground">
                       <MailIcon className="h-4 w-4" />
@@ -100,7 +104,7 @@ function RouteComponent() {
                     />
 
                     <Button
-                      className="m-1 px-4 transition-all duration-300 hover:scale-105 active:scale-95"
+                      className="group/button m-1 px-4 transition-all duration-300 hover:scale-105 active:scale-95"
                       disabled={isSubmitting || !email}
                       size="sm"
                       type="submit"
@@ -111,7 +115,7 @@ function RouteComponent() {
                       {isSubmitting ? (
                         <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
                       ) : (
-                        <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                        <ArrowRightIcon className="h-4 w-4 transition-transform group-hover/button:translate-x-0.5" />
                       )}
                     </Button>
                   </div>
