@@ -88,8 +88,10 @@ function RouteComponent() {
                     </div>
 
                     <Input
-                      className="flex-1 border-0 bg-card px-3 focus-visible:ring-0 focus-visible:ring-offset-0"
+                      autoComplete="email"
+                      className="flex-1 border-0 bg-card px-3 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-card"
                       disabled={isSubmitting}
+                      name="email"
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter your email"
                       required
