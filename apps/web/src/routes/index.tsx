@@ -32,29 +32,29 @@ function RouteComponent() {
 
   return (
     <div className="relative h-svh w-full">
-      <div className="absolute inset-0 bg-[url('https://images.rtsbuildorders.com/desktop_day.webp')] bg-center bg-cover dark:bg-[url('https://images.rtsbuildorders.com/desktop_night.webp')]" />
+      <div className="absolute inset-0 bg-[url('https://images.rtsbuildorders.com/mobile_day.webp')] bg-center bg-cover md:bg-[url('https://images.rtsbuildorders.com/desktop_day.webp')] dark:bg-[url('https://images.rtsbuildorders.com/mobile_night.webp')] dark:md:bg-[url('https://images.rtsbuildorders.com/desktop_night.webp')]" />
 
       {/* Bottom overlay for better game image visibility */}
       <div className="absolute inset-0 bg-gradient-to-t from-gray-950/70 via-transparent to-transparent" />
 
-      <div className="absolute inset-0 flex flex-col items-center justify-start px-4 pt-24 text-center">
-        <Badge className="mb-4" variant="secondary">
+      <div className="absolute inset-0 flex flex-col items-center justify-start px-4 pt-12 text-center md:pt-24">
+        <Badge className="mb-3 md:mb-4" variant="secondary">
           Outthink. Outbuild. Outplay.
         </Badge>
 
-        <h1 className="mb-6 text-balance text-center font-bold text-5xl text-foreground tracking-tight drop-shadow-lg md:text-7xl">
+        <h1 className="mb-4 text-balance text-center font-bold text-3xl text-foreground tracking-tight drop-shadow-lg sm:text-4xl md:mb-6 md:text-5xl lg:text-7xl">
           Strategy Is Your Strongest Weapon
         </h1>
 
-        <p className="mb-8 max-w-2xl text-foreground/90 text-lg drop-shadow">
+        <p className="mb-6 max-w-2xl px-2 text-base text-foreground/90 drop-shadow sm:text-lg md:mb-8 md:px-0">
           Gain the edge with expertly crafted build orders that turn your
           opening moves into unstoppable momentum and keep you ahead until the
           final blow.
         </p>
 
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-md px-4 sm:px-0">
           {isSubmitted ? (
-            <div className="fade-in-0 slide-in-from-bottom-4 animate-in rounded-lg border border-success/50 bg-success/40 p-6 text-center duration-500">
+            <div className="fade-in-0 slide-in-from-bottom-4 animate-in rounded-lg border border-success/50 bg-success/40 p-4 text-center duration-500 sm:p-6">
               <div className="mb-3">
                 <div className="zoom-in mx-auto flex h-12 w-12 animate-in items-center justify-center rounded-full bg-success/50 duration-300">
                   <CheckIcon className="h-6 w-6 text-success-foreground" />
@@ -123,27 +123,27 @@ function RouteComponent() {
       </div>
 
       {/* Bottom content */}
-      <div className="absolute right-0 bottom-8 left-0 px-4">
+      <div className="absolute right-0 bottom-4 left-0 px-4 md:bottom-8">
         <div className="mx-auto max-w-4xl">
-          <div className="flex items-center justify-center gap-8">
+          <div className="flex items-center justify-center gap-3 sm:gap-4 md:gap-8">
             <img
               alt="Stormgate"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-32 w-auto rounded-3xl opacity-90 transition-all duration-300 hover:opacity-100"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-2xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-20 md:h-32 md:rounded-3xl"
               src="https://images.rtsbuildorders.com/stormgate.webp"
             />
             <img
               alt="Age of Empires 4"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-32 w-auto rounded-3xl opacity-90 transition-all duration-300 hover:opacity-100"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-2xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-20 md:h-32 md:rounded-3xl"
               src="https://images.rtsbuildorders.com/aoe4.webp"
             />
             <img
               alt="WarCraft 3"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-32 w-auto rounded-3xl opacity-90 transition-all duration-300 hover:opacity-100"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-2xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-20 md:h-32 md:rounded-3xl"
               src="https://images.rtsbuildorders.com/warcraft3.webp"
             />
             <img
               alt="StarCraft 2"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-32 w-auto rounded-3xl opacity-90 transition-all duration-300 hover:opacity-100"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-2xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-20 md:h-32 md:rounded-3xl"
               src="https://images.rtsbuildorders.com/starcraft2.webp"
             />
           </div>
