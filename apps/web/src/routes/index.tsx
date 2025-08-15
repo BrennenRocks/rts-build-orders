@@ -1,4 +1,7 @@
 /** biome-ignore-all lint/style/noNestedTernary: complex conditional UI state requires nested ternary */
+
+import { useForm } from '@tanstack/react-form';
+
 import { createFileRoute } from '@tanstack/react-router';
 import { ArrowRightIcon, CheckIcon, MailIcon } from 'lucide-react';
 import { useState } from 'react';
@@ -6,29 +9,47 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
+// Email validation regex defined at top level for performance
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export const Route = createFileRoute('/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) {
-      return;
-    }
+  const form = useForm({
+    defaultValues: {
+      email: '',
+    },
+    onSubmit: async () => {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setIsSubmitted(true);
+    },
+    validators: {
+      onSubmit: ({ value }) => {
+        if (!value.email) {
+          return {
+            form: 'Email is required',
+            fields: {
+              email: 'Please enter your email address',
+            },
+          };
+        }
 
-    setIsSubmitting(true);
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-  };
+        if (!EMAIL_REGEX.test(value.email)) {
+          return {
+            form: 'Invalid email format',
+            fields: {
+              email: 'Please enter a valid email address',
+            },
+          };
+        }
+      },
+    },
+  });
 
   return (
     <div className="relative h-svh w-full">
@@ -66,7 +87,7 @@ function RouteComponent() {
               <p className="mb-4 text-sm text-success-foreground/90 leading-relaxed">
                 We've sent a confirmation email to{' '}
                 <span className="font-medium text-success-foreground">
-                  {email}
+                  {form.state.values.email}
                 </span>
               </p>
               <p className="text-success-foreground/90 text-xs">
@@ -75,53 +96,87 @@ function RouteComponent() {
               </p>
             </div>
           ) : (
-            <div
-              className={`transition-all duration-500 ease-out ${isSubmitting ? 'scale-95 opacity-50' : 'scale-100 opacity-100'}`}
-            >
-              <form className="space-y-4" onSubmit={handleSubmit}>
-                <div className="group relative">
-                  <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/20 to-accent/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100" />
+            <form.Subscribe>
+              {(state) => (
+                <div
+                  className={`transition-all duration-500 ease-out ${state.isSubmitting ? 'scale-95 opacity-50' : 'scale-100 opacity-100'}`}
+                >
+                  <form
+                    className="space-y-4"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      form.handleSubmit();
+                    }}
+                  >
+                    <div className="group relative">
+                      <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/20 to-accent/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100" />
 
-                  <p className="mb-2 text-foreground/80 text-sm leading-relaxed">
-                    Be the first to get notified when we launch
-                  </p>
+                      <p className="mb-2 text-foreground/80 text-sm leading-relaxed">
+                        Be the first to get notified when we launch
+                      </p>
 
-                  <div className="relative flex items-center overflow-hidden rounded-lg border bg-card shadow-sm transition-all duration-300 group-focus-within:shadow-md group-focus-within:ring-2 group-focus-within:ring-ring/20 group-hover:shadow-md">
-                    <div className="flex items-center pl-3 text-muted-foreground">
-                      <MailIcon className="h-4 w-4" />
+                      <form.Field name="email">
+                        {(field) => (
+                          <div className="space-y-2">
+                            <div className="relative flex items-center overflow-hidden rounded-lg border bg-card shadow-sm transition-all duration-300 group-focus-within:shadow-md group-focus-within:ring-2 group-focus-within:ring-ring/20 group-hover:shadow-md">
+                              <div className="flex items-center pl-3 text-muted-foreground">
+                                <MailIcon className="h-4 w-4" />
+                              </div>
+
+                              <Input
+                                autoComplete="email"
+                                className="flex-1 border-0 bg-card px-3 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-card"
+                                disabled={state.isSubmitting}
+                                hasError={
+                                  field.state.meta.isTouched &&
+                                  field.state.meta.errors.length > 0
+                                }
+                                id={field.name}
+                                name={field.name}
+                                onBlur={field.handleBlur}
+                                onChange={(e) =>
+                                  field.handleChange(e.target.value)
+                                }
+                                placeholder="Enter your email"
+                                type="email"
+                                value={field.state.value}
+                              />
+
+                              <Button
+                                className="group/button m-1 px-4 transition-all duration-300 active:scale-95"
+                                disabled={
+                                  !state.canSubmit ||
+                                  state.isSubmitting ||
+                                  !field.state.value
+                                }
+                                size="sm"
+                                type="submit"
+                              >
+                                <span className="ml-2 hidden sm:inline">
+                                  {state.isSubmitting ? 'Adding...' : 'Join'}
+                                </span>
+                                {state.isSubmitting ? (
+                                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                                ) : (
+                                  <ArrowRightIcon className="h-4 w-4 transition-transform group-hover/button:translate-x-0.5" />
+                                )}
+                              </Button>
+                            </div>
+                            {field.state.meta.isTouched &&
+                              field.state.meta.errors.length > 0 && (
+                                <p className="text-destructive text-sm dark:text-red-400 dark:drop-shadow-sm">
+                                  {field.state.meta.errors[0]}
+                                </p>
+                              )}
+                          </div>
+                        )}
+                      </form.Field>
                     </div>
-
-                    <Input
-                      autoComplete="email"
-                      className="flex-1 border-0 bg-card px-3 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-card"
-                      disabled={isSubmitting}
-                      name="email"
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter your email"
-                      required
-                      type="email"
-                      value={email}
-                    />
-
-                    <Button
-                      className="group/button m-1 px-4 transition-all duration-300 hover:scale-105 active:scale-95"
-                      disabled={isSubmitting || !email}
-                      size="sm"
-                      type="submit"
-                    >
-                      <span className="ml-2 hidden sm:inline">
-                        {isSubmitting ? 'Adding...' : 'Join'}
-                      </span>
-                      {isSubmitting ? (
-                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                      ) : (
-                        <ArrowRightIcon className="h-4 w-4 transition-transform group-hover/button:translate-x-0.5" />
-                      )}
-                    </Button>
-                  </div>
+                  </form>
                 </div>
-              </form>
-            </div>
+              )}
+            </form.Subscribe>
           )}
         </div>
       </div>
