@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 const serverSchema = z.object({
   DATABASE_URL: z.string(),
-  // RESEND_API_KEY: z.string(),
-  // FROM_EMAIL: z.string(),
+  RESEND_API_KEY: z.string(),
+  FROM_EMAIL: z.string(),
   CORS_ORIGIN: z.url(),
   BETTER_AUTH_SECRET: z.string(),
   BETTER_AUTH_URL: z.url(),

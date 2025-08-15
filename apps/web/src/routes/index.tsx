@@ -1,16 +1,15 @@
 /** biome-ignore-all lint/style/noNestedTernary: complex conditional UI state requires nested ternary */
 
 import { useForm } from '@tanstack/react-form';
-
+import { useMutation } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { ArrowRightIcon, CheckIcon, MailIcon } from 'lucide-react';
 import { useState } from 'react';
+import { z } from 'zod';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-
-// Email validation regex defined at top level for performance
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { trpc } from '@/utils/trpc';
 
 export const Route = createFileRoute('/')({
   component: RouteComponent,
@@ -18,36 +17,24 @@ export const Route = createFileRoute('/')({
 
 function RouteComponent() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { mutateAsync: signup } = useMutation(
+    trpc.newsletter.signup.mutationOptions()
+  );
 
   const form = useForm({
     defaultValues: {
       email: '',
     },
     onSubmit: async () => {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await signup({ email: form.state.values.email });
       setIsSubmitted(true);
     },
     validators: {
-      onSubmit: ({ value }) => {
-        if (!value.email) {
-          return {
-            form: 'Email is required',
-            fields: {
-              email: 'Please enter your email address',
-            },
-          };
-        }
-
-        if (!EMAIL_REGEX.test(value.email)) {
-          return {
-            form: 'Invalid email format',
-            fields: {
-              email: 'Please enter a valid email address',
-            },
-          };
-        }
-      },
+      onSubmit: z.object({
+        email: z
+          .email('Please enter a valid email address')
+          .min(1, 'Please enter your email address'),
+      }),
     },
   });
 
@@ -103,6 +90,7 @@ function RouteComponent() {
                 >
                   <form
                     className="space-y-4"
+                    noValidate
                     onSubmit={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
@@ -163,12 +151,14 @@ function RouteComponent() {
                                 )}
                               </Button>
                             </div>
-                            {field.state.meta.isTouched &&
-                              field.state.meta.errors.length > 0 && (
-                                <p className="text-destructive text-sm dark:text-red-400 dark:drop-shadow-sm">
-                                  {field.state.meta.errors[0]}
-                                </p>
-                              )}
+                            {field.state.meta.errors.map((error) => (
+                              <p
+                                className="text-destructive text-sm dark:text-red-400 dark:drop-shadow-sm"
+                                key={error?.message}
+                              >
+                                {error?.message}
+                              </p>
+                            ))}
                           </div>
                         )}
                       </form.Field>
