@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Allow: /terms
+Allow: /privacy
+
+# Block development and API routes if any
+Disallow: /api/
+Disallow: /_next/
+
+# Sitemap location
+Sitemap: https://rtsbuildorders.com/sitemap.xml

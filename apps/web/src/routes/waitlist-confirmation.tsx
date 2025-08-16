@@ -56,7 +56,8 @@ function RouteComponent() {
       {/* Bottom overlay for better game image visibility */}
       <div className="absolute inset-0 bg-gradient-to-t from-gray-950/70 via-transparent to-transparent" />
 
-      <div className="absolute inset-0 flex flex-col items-center justify-start px-4 pt-12 text-center md:pt-24">
+      {/* Top content - always at top */}
+      <div className="absolute inset-x-0 top-0 flex flex-col items-center px-4 pt-20 text-center md:pt-24">
         <Badge className="mb-3 md:mb-4" variant="secondary">
           Outthink. Outbuild. Outplay.
         </Badge>
@@ -70,7 +71,10 @@ function RouteComponent() {
           opening moves into unstoppable momentum and keep you ahead until the
           final blow
         </p>
+      </div>
 
+      {/* Form content - centered on mobile, under top content on desktop */}
+      <div className="absolute inset-0 mt-4 flex flex-col items-center justify-center px-4 text-center md:justify-start md:pt-72">
         <div className="w-full max-w-md px-4 sm:px-0">
           <div
             className={cn(
@@ -148,30 +152,56 @@ function RouteComponent() {
             )}
           </div>
         </div>
-      </div>
 
-      {/* Bottom content */}
-      <div className="absolute right-0 bottom-4 left-0 px-4 md:bottom-8">
-        <div className="mx-auto max-w-4xl">
-          <div className="flex items-center justify-center gap-3 sm:gap-4 md:gap-8">
+        {/* Game images - shown under confirmation on mobile, at bottom on desktop */}
+        <div className="mt-6 w-full max-w-4xl px-4 md:hidden">
+          <div className="flex items-center justify-center gap-3 sm:gap-4">
             <img
               alt="Stormgate"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-2xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-20 md:h-32 md:rounded-3xl"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-16"
               src="https://images.rtsbuildorders.com/stormgate.webp"
             />
             <img
               alt="Age of Empires 4"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-2xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-20 md:h-32 md:rounded-3xl"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-16"
               src="https://images.rtsbuildorders.com/aoe4.webp"
             />
             <img
               alt="WarCraft 3"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-2xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-20 md:h-32 md:rounded-3xl"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-16"
               src="https://images.rtsbuildorders.com/warcraft3.webp"
             />
             <img
               alt="StarCraft 2"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-2xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-20 md:h-32 md:rounded-3xl"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-16"
+              src="https://images.rtsbuildorders.com/starcraft2.webp"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom content - desktop only */}
+      <div className="absolute right-0 bottom-4 left-0 hidden px-4 md:bottom-8 md:block">
+        <div className="mx-auto max-w-4xl">
+          <div className="flex items-center justify-center gap-8">
+            <img
+              alt="Stormgate"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-32 w-auto rounded-3xl opacity-90 transition-all duration-300 hover:opacity-100"
+              src="https://images.rtsbuildorders.com/stormgate.webp"
+            />
+            <img
+              alt="Age of Empires 4"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-32 w-auto rounded-3xl opacity-90 transition-all duration-300 hover:opacity-100"
+              src="https://images.rtsbuildorders.com/aoe4.webp"
+            />
+            <img
+              alt="WarCraft 3"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-32 w-auto rounded-3xl opacity-90 transition-all duration-300 hover:opacity-100"
+              src="https://images.rtsbuildorders.com/warcraft3.webp"
+            />
+            <img
+              alt="StarCraft 2"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-32 w-auto rounded-3xl opacity-90 transition-all duration-300 hover:opacity-100"
               src="https://images.rtsbuildorders.com/starcraft2.webp"
             />
           </div>

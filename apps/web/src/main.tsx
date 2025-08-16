@@ -6,9 +6,9 @@ import Loader from './components/loader';
 import { routeTree } from './routeTree.gen';
 import { queryClient, trpc } from './utils/trpc';
 
-scan({
-  enabled: import.meta.env.DEV,
-});
+// scan({
+//   enabled: import.meta.env.DEV,
+// });
 
 const router = createRouter({
   routeTree,
