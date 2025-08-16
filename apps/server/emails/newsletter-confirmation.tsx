@@ -46,20 +46,21 @@ export default function NewsletterConfirmationEmail({
 }: {
   token: string;
 }) {
-  const confirmationLink = `${serverEnv.CORS_ORIGIN}/confirmation?token=${token}`;
+  const confirmationLink = `${serverEnv.CORS_ORIGIN}/waitlist-confirmation?token=${token}`;
   return (
     <EmailContainer
-      preview="Welcome to the waitlist!"
-      title="You're on the list!"
+      preview="Confirm your waitlist signup"
+      title="Almost there!"
     >
       <Text style={welcomeText}>
-        Welcome to the RTS Build Orders waitlist! We're excited to have you join
-        our community of RTS enthusiasts.
+        Thanks for your interest in RTS Build Orders! We're excited to have you
+        join our community of RTS enthusiasts.
       </Text>
 
       <Text style={descriptionText}>
-        Please confirm your email address by clicking the button below to
-        complete your waitlist registration.
+        To complete your waitlist registration please confirm your email address
+        by clicking the button below. You won't be added to the waitlist until
+        you confirm. You'll receive an email when we launch.
       </Text>
 
       <Button href={confirmationLink} style={buttonStyle}>

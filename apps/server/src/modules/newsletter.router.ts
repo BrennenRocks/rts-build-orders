@@ -20,30 +20,36 @@ export const newsletterRouter = router({
         where: eq(newsletterSubscribersTable.email, email),
       });
 
-      if (subscriber) {
-        throw new TRPCError({
-          code: 'CONFLICT',
-          message: 'Email already exists',
-        });
+      // If user is already confirmed, don't send another email
+      if (subscriber?.confirmedAt) {
+        return { message: 'You are already subscribed to the waitlist' };
       }
-
-      const [newSubscriber] = await db
-        .insert(newsletterSubscribersTable)
-        .values({ email })
-        .returning();
 
       const token = generateToken();
       const tokenHash = hashToken(token);
 
-      try {
-        await db.insert(newsletterVerificationTokensTable).values({
+      // Use transaction to ensure data consistency
+      await db.transaction(async (tx) => {
+        let subscriberId: number;
+
+        if (subscriber) {
+          // User exists but is not confirmed, use existing subscriber
+          subscriberId = subscriber.id;
+        } else {
+          // Create new subscriber
+          const [newSubscriber] = await tx
+            .insert(newsletterSubscribersTable)
+            .values({ email })
+            .returning();
+          subscriberId = newSubscriber.id;
+        }
+
+        await tx.insert(newsletterVerificationTokensTable).values({
           tokenHash,
           expiresAt: new Date(Date.now() + 30 * 60 * 1000), // 30 min
-          newsletterSubscriberId: newSubscriber.id,
+          newsletterSubscriberId: subscriberId,
         });
-      } catch (e) {
-        console.error(e);
-      }
+      });
 
       await sendNewsletterConfirmationEmail(email, token);
 
@@ -68,17 +74,21 @@ export const newsletterRouter = router({
         });
       }
 
-      await db
-        .update(newsletterSubscribersTable)
-        .set({ confirmedAt: new Date() })
-        .where(
-          eq(newsletterSubscribersTable.id, record.newsletterSubscriberId)
-        );
-
-      await db
-        .update(newsletterVerificationTokensTable)
-        .set({ used: true })
-        .where(eq(newsletterVerificationTokensTable.tokenHash, tokenHash));
+      // Use transaction with Promise.all for atomic parallel updates
+      await db.transaction(async (tx) => {
+        await Promise.all([
+          tx
+            .update(newsletterSubscribersTable)
+            .set({ confirmedAt: new Date() })
+            .where(
+              eq(newsletterSubscribersTable.id, record.newsletterSubscriberId)
+            ),
+          tx
+            .update(newsletterVerificationTokensTable)
+            .set({ used: true })
+            .where(eq(newsletterVerificationTokensTable.tokenHash, tokenHash)),
+        ]);
+      });
 
       return { message: "Email confirmed! You're on the waitlist." };
     }),

@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm';
 import {
   boolean,
   integer,
@@ -28,4 +29,21 @@ export const newsletterVerificationTokens = pgTable(
       .references(() => newsletterSubscribers.id, { onDelete: 'cascade' }),
     ...timestamps,
   }
+);
+
+export const newsletterSubscribersRelations = relations(
+  newsletterSubscribers,
+  ({ many }) => ({
+    verificationTokens: many(newsletterVerificationTokens),
+  })
+);
+
+export const newsletterVerificationTokensRelations = relations(
+  newsletterVerificationTokens,
+  ({ one }) => ({
+    newsletterSubscriber: one(newsletterSubscribers, {
+      fields: [newsletterVerificationTokens.newsletterSubscriberId],
+      references: [newsletterSubscribers.id],
+    }),
+  })
 );

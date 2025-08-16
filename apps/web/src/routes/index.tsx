@@ -17,6 +17,7 @@ export const Route = createFileRoute('/')({
 
 function RouteComponent() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isAlreadySubscribed, setIsAlreadySubscribed] = useState(false);
   const { mutateAsync: signup } = useMutation(
     trpc.newsletter.signup.mutationOptions()
   );
@@ -26,8 +27,12 @@ function RouteComponent() {
       email: '',
     },
     onSubmit: async () => {
-      await signup({ email: form.state.values.email });
-      setIsSubmitted(true);
+      const result = await signup({ email: form.state.values.email });
+      if (result.message === 'You are already subscribed to the waitlist') {
+        setIsAlreadySubscribed(true);
+      } else {
+        setIsSubmitted(true);
+      }
     },
     validators: {
       onSubmit: z.object({
@@ -80,6 +85,26 @@ function RouteComponent() {
               <p className="text-success-foreground/90 text-xs">
                 Click the link in your email to complete your signup and get
                 notified when build orders are ready.
+              </p>
+            </div>
+          ) : isAlreadySubscribed ? (
+            <div className="fade-in-0 slide-in-from-bottom-4 animate-in rounded-lg border border-info/50 bg-info/40 p-4 text-center duration-500 sm:p-6">
+              <div className="mb-3">
+                <div className="zoom-in mx-auto flex h-12 w-12 animate-in items-center justify-center rounded-full bg-info/50 duration-300">
+                  <CheckIcon className="h-6 w-6 text-info-foreground" />
+                </div>
+              </div>
+              <h3 className="mb-2 font-semibold text-info-foreground text-lg">
+                You're already signed up!
+              </h3>
+              <p className="mb-4 text-info-foreground/90 text-sm leading-relaxed">
+                <span className="font-medium text-info-foreground">
+                  {form.state.values.email}
+                </span>{' '}
+                is already subscribed to our waitlist.
+              </p>
+              <p className="text-info-foreground/90 text-xs">
+                You'll be notified when build orders are ready.
               </p>
             </div>
           ) : (
