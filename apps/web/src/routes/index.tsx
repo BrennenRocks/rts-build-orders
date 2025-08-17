@@ -68,7 +68,7 @@ function RouteComponent() {
       </div>
 
       {/* Form content - centered on mobile, under top content on desktop */}
-      <div className="absolute inset-0 mt-4 flex flex-col items-center justify-center px-4 text-center md:justify-start md:pt-72">
+      <div className="absolute inset-0 mt-20 flex flex-col items-center justify-center px-4 text-center md:justify-start md:pt-72">
         <div className="w-full max-w-md px-4 sm:px-0">
           {isSubmitted ? (
             <div className="fade-in-0 slide-in-from-bottom-4 animate-in rounded-lg border border-success/50 bg-success/40 p-4 text-center duration-500 sm:p-6">
@@ -201,6 +201,18 @@ function RouteComponent() {
 
         {/* Game images - shown under input on mobile, at bottom on desktop */}
         <div className="mt-6 w-full max-w-4xl px-4 md:hidden">
+          <p className="mb-4 text-center text-foreground/60 text-xs">
+            Follow along on{' '}
+            <a
+              className="text-primary underline transition-colors hover:text-primary/80"
+              href="https://x.com/elevated_sw"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              X
+            </a>{' '}
+            as I build RTS Build Orders in public
+          </p>
           <div className="flex items-center justify-center gap-3 sm:gap-4">
             <img
               alt="Stormgate"
@@ -229,6 +241,19 @@ function RouteComponent() {
       {/* Bottom content - desktop only */}
       <div className="absolute right-0 bottom-4 left-0 hidden px-4 md:bottom-8 md:block">
         <div className="mx-auto max-w-4xl">
+          <p className="mb-6 text-center text-foreground/60 text-sm">
+            Follow along on{' '}
+            <a
+              className="text-primary underline transition-colors hover:text-primary/80"
+              href="https://x.com/elevated_sw"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              X
+            </a>{' '}
+            as I build RTS Build Orders in public
+          </p>
+
           <div className="flex items-center justify-center gap-8">
             <img
               alt="Stormgate"

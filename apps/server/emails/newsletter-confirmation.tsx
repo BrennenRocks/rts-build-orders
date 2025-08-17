@@ -1,4 +1,4 @@
-import { Button, Text } from '@react-email/components';
+import { Button, Link, Text } from '@react-email/components';
 import { serverEnv } from 'env.server';
 import { EmailContainer } from './components/container';
 
@@ -41,6 +41,19 @@ const securityNote = {
   fontStyle: 'italic',
 };
 
+const followNote = {
+  color: '#94a3b8',
+  fontSize: '11px',
+  lineHeight: '14px',
+  margin: '12px 0 0',
+  textAlign: 'center' as const,
+};
+
+const followLink = {
+  color: '#2dd4bf',
+  textDecoration: 'none',
+};
+
 export default function NewsletterConfirmationEmail({
   token,
 }: {
@@ -66,6 +79,13 @@ export default function NewsletterConfirmationEmail({
       <Button href={confirmationLink} style={buttonStyle}>
         Confirm Email
       </Button>
+
+      <Text style={followNote}>
+        Watch RTS Build Orders being built on{' '}
+        <Link href="https://x.com/elevated_sw" style={followLink}>
+          X
+        </Link>
+      </Text>
 
       <Text style={descriptionText}>
         If the button doesn't work, copy and paste this link into your browser:{' '}

@@ -246,8 +246,8 @@ function RouteComponent() {
           issues, please contact us at:
         </p>
         <p className="text-blue-600 hover:underline dark:text-blue-400">
-          <a href="mailto:towncenter@rtsbuildorders.com">
-            towncenter@rtsbuildorders.com
+          <a href="https://x.com/Elevated_SW" rel="noopener" target="_blank">
+            @Elevated_SW on X (formerly Twitter)
           </a>
         </p>
       </section>

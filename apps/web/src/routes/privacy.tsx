@@ -146,9 +146,9 @@ function RouteComponent() {
           <li>Object to or restrict certain uses of your data.</li>
         </ul>
         <p className="text-gray-700 dark:text-gray-300">
-          To exercise these rights, contact us at{' '}
-          <a href="mailto:towncenter@rtsbuildorders.com">
-            towncenter@rtsbuildorders.com
+          To exercise these rights, contact us on X (Twitter) at{' '}
+          <a href="https://x.com/Elevated_SW" rel="noopener" target="_blank">
+            @Elevated_SW
           </a>
           .
         </p>
@@ -206,8 +206,8 @@ function RouteComponent() {
         </p>
       </section>
       <p className="text-blue-600 hover:underline dark:text-blue-400">
-        <a href={'mailto:towncenter@rtsbuildorders.com'}>
-          towncenter@rtsbuildorders.com
+        <a href="https://x.com/Elevated_SW" rel="noopener" target="_blank">
+          @Elevated_SW on X (formerly Twitter)
         </a>
       </p>
     </div>
