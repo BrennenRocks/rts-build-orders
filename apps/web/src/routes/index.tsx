@@ -201,7 +201,7 @@ function RouteComponent() {
 
         {/* Game images - shown under input on mobile, at bottom on desktop */}
         <div className="mt-6 w-full max-w-4xl px-4 md:hidden">
-          <p className="mb-4 text-center text-foreground/60 text-xs">
+          <p className="mb-4 text-center text-white/70 text-xs dark:text-foreground/70">
             Follow along on{' '}
             <a
               className="text-primary underline transition-colors hover:text-primary/80"
@@ -241,7 +241,7 @@ function RouteComponent() {
       {/* Bottom content - desktop only */}
       <div className="absolute right-0 bottom-4 left-0 hidden px-4 md:bottom-8 md:block">
         <div className="mx-auto max-w-4xl">
-          <p className="mb-6 text-center text-foreground/60 text-sm">
+          <p className="mb-6 text-center text-sm text-white/70 dark:text-foreground/70">
             Follow along on{' '}
             <a
               className="text-primary underline transition-colors hover:text-primary/80"
