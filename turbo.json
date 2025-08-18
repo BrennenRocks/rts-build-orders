@@ -29,8 +29,16 @@
     "db:migrate": {
       "cache": false,
       "persistent": true,
-      "env": ["DATABASE_URL"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"]
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "env": [
+        "CORS_ORIGIN",
+        "RESEND_API_KEY",
+        "FROM_EMAIL",
+        "BETTER_AUTH_SECRET",
+        "BETTER_AUTH_URL",
+        "DATABASE_URL",
+        "PORT"
+      ]
     },
     "db:generate": {
       "cache": false,
@@ -46,6 +54,7 @@
         "FROM_EMAIL",
         "BETTER_AUTH_SECRET",
         "BETTER_AUTH_URL",
+        "DATABASE_URL",
         "PORT"
       ]
     }
