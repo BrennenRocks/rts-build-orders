@@ -14,16 +14,16 @@ import { Toaster } from '@/components/ui/sonner';
 import type { trpc } from '@/utils/trpc';
 import '../index.css';
 import type { User } from 'better-auth';
-import { authClient } from '@/lib/auth-client';
+// import { authClient } from '@/lib/auth-client';
 
-export interface RouterAppContext {
+export type RouterAppContext = {
   trpc: typeof trpc;
   queryClient: QueryClient;
   user: User | null;
-}
+};
 
 export const Route = createRootRouteWithContext<RouterAppContext>()({
-  beforeLoad: async () => {
+  beforeLoad: () => {
     // try {
     //   const session = await authClient.getSession();
     //   return { user: session.data?.user ?? null };
@@ -229,8 +229,8 @@ function RootComponent() {
         </div>
         <Toaster richColors />
       </ThemeProvider>
-      {/* <TanStackRouterDevtools position="bottom-left" />
-      <ReactQueryDevtools buttonPosition="bottom-right" position="bottom" /> */}
+      <TanStackRouterDevtools position="bottom-left" />
+      <ReactQueryDevtools buttonPosition="bottom-right" position="bottom" />
     </>
   );
 }
