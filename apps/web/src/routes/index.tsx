@@ -67,8 +67,8 @@ function RouteComponent() {
         </p>
       </div>
 
-      {/* Form content - centered on mobile, under top content on desktop */}
-      <div className="absolute inset-0 mt-20 flex flex-col items-center justify-center px-4 text-center md:justify-start md:pt-72">
+      {/* Form content - flows naturally on mobile, under top content on desktop */}
+      <div className="absolute inset-0 mt-20 flex flex-col items-center justify-start px-4 pt-64 text-center md:justify-start md:pt-72">
         <div className="w-full max-w-md px-4 sm:px-0">
           {isSubmitted ? (
             <div className="fade-in-0 slide-in-from-bottom-4 animate-in rounded-lg border border-success/50 bg-success/40 p-4 text-center duration-500 sm:p-6">
@@ -129,7 +129,7 @@ function RouteComponent() {
                     <div className="group relative">
                       <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/20 to-accent/20 opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-100" />
 
-                      <p className="mb-2 text-foreground/80 text-sm leading-relaxed">
+                      <p className="mb-2 text-foreground/90 text-sm leading-relaxed">
                         Be the first to get notified when we launch
                       </p>
 
@@ -201,7 +201,7 @@ function RouteComponent() {
 
         {/* Game images - shown under input on mobile, at bottom on desktop */}
         <div className="mt-6 w-full max-w-4xl px-4 md:hidden">
-          <p className="mb-4 text-center text-white/70 text-xs dark:text-foreground/70">
+          <p className="mb-4 text-center text-foreground/90 text-xs">
             Follow along on{' '}
             <a
               className="text-primary underline transition-colors hover:text-primary/80"
@@ -216,22 +216,22 @@ function RouteComponent() {
           <div className="flex items-center justify-center gap-3 sm:gap-4">
             <img
               alt="Stormgate"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-16"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl transition-all duration-300 hover:opacity-100 sm:h-16"
               src="https://images.rtsbuildorders.com/stormgate.webp"
             />
             <img
               alt="Age of Empires 4"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-16"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl transition-all duration-300 hover:opacity-100 sm:h-16"
               src="https://images.rtsbuildorders.com/aoe4.webp"
             />
             <img
               alt="WarCraft 3"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-16"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl transition-all duration-300 hover:opacity-100 sm:h-16"
               src="https://images.rtsbuildorders.com/warcraft3.webp"
             />
             <img
               alt="StarCraft 2"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-16"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl transition-all duration-300 hover:opacity-100 sm:h-16"
               src="https://images.rtsbuildorders.com/starcraft2.webp"
             />
           </div>
