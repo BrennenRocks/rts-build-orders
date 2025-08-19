@@ -87,7 +87,15 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         property: 'og:image',
-        content: 'https://images.rtsbuildorders.com/og-image.jpeg',
+        content: 'https://images.rtsbuildorders.com/og-image.png',
+      },
+      {
+        property: 'og:image:width',
+        content: '1200',
+      },
+      {
+        property: 'og:image:height',
+        content: '628',
       },
       {
         property: 'og:image:alt',
@@ -118,7 +126,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         name: 'twitter:image',
-        content: 'https://images.rtsbuildorders.com/og-image.jpeg',
+        content: 'https://images.rtsbuildorders.com/og-image.png',
       },
       {
         name: 'twitter:image:alt',
