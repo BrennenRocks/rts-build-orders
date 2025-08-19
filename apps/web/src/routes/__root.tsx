@@ -39,13 +39,12 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
   head: () => ({
     meta: [
       {
-        title:
-          'RTS Build Orders | Master Professional RTS Strategies & Opening Moves',
+        title: 'RTS Build Orders | Master Professional RTS Build Orders',
       },
       {
         name: 'description',
         content:
-          'Master RTS games with professional build orders for StarCraft 2, Age of Empires 4, WarCraft 3, and Stormgate. Learn winning strategies used by pros to dominate your opening moves and gain unstoppable momentum.',
+          'Master RTS games with professional build orders for StarCraft 2, Age of Empires 4, WarCraft 3, and Stormgate. Learn winning strategies used by pros to dominate your opponents.',
       },
       {
         name: 'keywords',
