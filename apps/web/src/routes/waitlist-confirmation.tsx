@@ -57,28 +57,28 @@ function RouteComponent() {
       <div className="absolute inset-0 bg-gradient-to-t from-gray-950/70 via-transparent to-transparent" />
 
       {/* Top content - always at top */}
-      <div className="absolute inset-x-0 top-0 flex flex-col items-center px-4 pt-20 text-center md:pt-24">
+      <div className="absolute inset-x-0 top-0 flex flex-col items-center px-4 pt-12 text-center md:pt-24">
         <Badge className="mb-3 md:mb-4" variant="secondary">
           Outthink. Outbuild. Outplay.
         </Badge>
 
-        <h1 className="mb-4 text-balance text-center font-bold text-3xl text-foreground tracking-tight drop-shadow-lg sm:text-4xl md:mb-6 md:text-5xl lg:text-7xl">
+        <h1 className="mb-3 text-balance text-center font-bold text-3xl text-foreground tracking-tight drop-shadow-lg sm:text-3xl md:mb-6 md:text-5xl lg:text-7xl">
           Stop Guessing Your First Moves
         </h1>
 
-        <p className="mb-6 max-w-2xl px-2 text-base text-foreground/90 drop-shadow sm:text-lg md:mb-8 md:px-0">
+        <p className="mb-4 max-w-2xl px-2 text-foreground/90 text-sm drop-shadow sm:text-base md:mb-8 md:px-0 md:text-lg">
           Gain the edge with build orders used by the pros that turn your
           opening moves into unstoppable momentum and keep you ahead until the
           final blow
         </p>
       </div>
 
-      {/* Form content - centered on mobile, under top content on desktop */}
-      <div className="absolute inset-0 mt-4 flex flex-col items-center justify-center px-4 text-center md:justify-start md:pt-72">
+      {/* Form content - positioned below top content on mobile, under top content on desktop */}
+      <div className="absolute inset-0 mt-2 flex flex-col items-center justify-start px-4 pt-64 text-center md:justify-start md:pt-80">
         <div className="w-full max-w-md px-4 sm:px-0">
           <div
             className={cn(
-              'fade-in-0 slide-in-from-bottom-4 animate-in rounded-lg border p-4 text-center duration-500 sm:p-6',
+              'fade-in-0 slide-in-from-bottom-4 animate-in rounded-lg border p-3 text-center duration-500 sm:p-6',
               confirmationState === 'error' &&
                 'border-destructive/50 bg-destructive/20',
               confirmationState === 'success' &&
@@ -154,26 +154,38 @@ function RouteComponent() {
         </div>
 
         {/* Game images - shown under confirmation on mobile, at bottom on desktop */}
-        <div className="mt-6 w-full max-w-4xl px-4 md:hidden">
-          <div className="flex items-center justify-center gap-3 sm:gap-4">
+        <div className="mt-4 w-full max-w-4xl px-4 md:hidden">
+          <p className="mb-3 text-center text-foreground/90 text-xs">
+            Follow along on{' '}
+            <a
+              className="text-primary underline transition-colors hover:text-primary/80"
+              href="https://x.com/elevated_sw"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              X
+            </a>{' '}
+            as I build RTS Build Orders in public
+          </p>
+          <div className="flex items-center justify-center gap-2 sm:gap-4">
             <img
               alt="Stormgate"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-16"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl transition-all duration-300 hover:opacity-100 sm:h-16"
               src="https://images.rtsbuildorders.com/stormgate.webp"
             />
             <img
               alt="Age of Empires 4"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-16"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl transition-all duration-300 hover:opacity-100 sm:h-16"
               src="https://images.rtsbuildorders.com/aoe4.webp"
             />
             <img
               alt="WarCraft 3"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-16"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl transition-all duration-300 hover:opacity-100 sm:h-16"
               src="https://images.rtsbuildorders.com/warcraft3.webp"
             />
             <img
               alt="StarCraft 2"
-              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl opacity-90 transition-all duration-300 hover:opacity-100 sm:h-16"
+              className="mask-radial-from-80% mask-radial-to-100% mask-radial-at-center h-16 w-auto rounded-xl transition-all duration-300 hover:opacity-100 sm:h-16"
               src="https://images.rtsbuildorders.com/starcraft2.webp"
             />
           </div>
@@ -183,6 +195,19 @@ function RouteComponent() {
       {/* Bottom content - desktop only */}
       <div className="absolute right-0 bottom-4 left-0 hidden px-4 md:bottom-8 md:block">
         <div className="mx-auto max-w-4xl">
+          <p className="mb-6 text-center text-sm text-white/70 dark:text-foreground/70">
+            Follow along on{' '}
+            <a
+              className="text-primary underline transition-colors hover:text-primary/80"
+              href="https://x.com/elevated_sw"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              X
+            </a>{' '}
+            as I build RTS Build Orders in public
+          </p>
+
           <div className="flex items-center justify-center gap-8">
             <img
               alt="Stormgate"
