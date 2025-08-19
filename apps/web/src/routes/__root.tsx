@@ -87,7 +87,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         property: 'og:image',
-        content: 'https://images.rtsbuildorders.com/og-image.webp',
+        content: 'https://images.rtsbuildorders.com/og-image.jpeg',
       },
       {
         property: 'og:image:alt',
@@ -118,7 +118,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         name: 'twitter:image',
-        content: 'https://images.rtsbuildorders.com/og-image.webp',
+        content: 'https://images.rtsbuildorders.com/og-image.jpeg',
       },
       {
         name: 'twitter:image:alt',
