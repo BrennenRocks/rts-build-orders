@@ -46,106 +46,6 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
         content:
           'Master RTS games with professional build orders for StarCraft 2, Age of Empires 4, WarCraft 3, and Stormgate. Learn winning strategies used by pros to dominate your opponents.',
       },
-      {
-        name: 'keywords',
-        content:
-          'RTS build orders, StarCraft 2 builds, Age of Empires 4 builds, WarCraft 3 builds, Stormgate builds, RTS strategies, professional gaming, esports builds, real-time strategy, gaming guides',
-      },
-      {
-        name: 'author',
-        content: 'RTS Build Orders',
-      },
-      {
-        name: 'robots',
-        content: 'index, follow',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1.0',
-      },
-      {
-        charset: 'utf-8',
-      },
-      // Additional SEO meta tags
-      {
-        name: 'application-name',
-        content: 'RTS Build Orders',
-      },
-      {
-        name: 'apple-mobile-web-app-title',
-        content: 'RTS Build Orders',
-      },
-      {
-        name: 'apple-mobile-web-app-capable',
-        content: 'yes',
-      },
-      {
-        name: 'apple-mobile-web-app-status-bar-style',
-        content: 'black-translucent',
-      },
-    ],
-    links: [
-      // Canonical URL
-      {
-        rel: 'canonical',
-        href: 'https://rtsbuildorders.com',
-      },
-      // Favicon and touch icons
-      {
-        rel: 'icon',
-        href: '/favicon.ico',
-        sizes: 'any',
-      },
-      // Preconnect to external domains for performance
-      {
-        rel: 'preconnect',
-        href: 'https://images.rtsbuildorders.com',
-      },
-      {
-        rel: 'dns-prefetch',
-        href: 'https://images.rtsbuildorders.com',
-      },
-    ],
-    scripts: [
-      // JSON-LD structured data
-      {
-        type: 'application/ld+json',
-        children: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'WebSite',
-          name: 'RTS Build Orders',
-          description:
-            'Master RTS games with professional build orders for StarCraft 2, Age of Empires 4, WarCraft 3, and Stormgate. Learn winning strategies used by pros to dominate your opening moves.',
-          url: 'https://rtsbuildorders.com',
-          publisher: {
-            '@type': 'Organization',
-            name: 'RTS Build Orders',
-            url: 'https://rtsbuildorders.com',
-          },
-          potentialAction: {
-            '@type': 'SearchAction',
-            target: 'https://rtsbuildorders.com/search?q={search_term_string}',
-            'query-input': 'required name=search_term_string',
-          },
-          sameAs: [],
-          mainEntity: {
-            '@type': 'WebApplication',
-            name: 'RTS Build Orders',
-            applicationCategory: 'GameApplication',
-            operatingSystem: 'Web Browser',
-            offers: {
-              '@type': 'Offer',
-              price: '0',
-              priceCurrency: 'USD',
-            },
-            aggregateRating: {
-              '@type': 'AggregateRating',
-              ratingValue: '4.8',
-              ratingCount: '150',
-            },
-          },
-        }),
-      },
     ],
   }),
 });
@@ -171,8 +71,10 @@ function RootComponent() {
         </div>
         <Toaster richColors />
       </ThemeProvider>
-      <TanStackRouterDevtools position="bottom-left" />
-      <ReactQueryDevtools buttonPosition="bottom-right" position="bottom" />
+      {import.meta.env.DEV && <TanStackRouterDevtools position="bottom-left" />}
+      {import.meta.env.DEV && (
+        <ReactQueryDevtools buttonPosition="bottom-right" position="bottom" />
+      )}
     </>
   );
 }
