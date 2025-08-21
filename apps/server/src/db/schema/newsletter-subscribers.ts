@@ -8,7 +8,7 @@ import {
   timestamp,
   uuid,
 } from 'drizzle-orm/pg-core';
-import { timestamps } from '../utils';
+import { timestamps } from '../shared';
 
 export const newsletterSubscribers = pgTable('newsletter_subscribers', {
   id: serial('id').primaryKey(),

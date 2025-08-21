@@ -1,5 +1,8 @@
+import { relations } from 'drizzle-orm';
 import { boolean, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
-import { timestamps } from '../utils';
+import { timestamps } from '../shared';
+import { buildOrders } from './build-orders';
+import { favorites } from './favorites';
 
 export const users = pgTable('users', {
   id: text('id').primaryKey(),
@@ -46,3 +49,10 @@ export const verificationTokens = pgTable('verification_tokens', {
   expiresAt: timestamp('expires_at').notNull(),
   ...timestamps,
 });
+
+export const usersRelations = relations(users, ({ many }) => ({
+  accounts: many(accounts),
+  sessions: many(sessions),
+  buildOrders: many(buildOrders),
+  favorites: many(favorites),
+}));
