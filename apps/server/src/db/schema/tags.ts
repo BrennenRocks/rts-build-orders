@@ -23,11 +23,9 @@ export const tags = pgTable(
   'tags',
   {
     id: serial('id').primaryKey(),
-    gameId: integer('game_id')
-      .notNull()
-      .references(() => games.id, {
-        onDelete: 'cascade',
-      }),
+    gameId: integer('game_id').references(() => games.id, {
+      onDelete: 'cascade',
+    }), // if null, then it's a global tag
     slug: text('slug').notNull(),
     name: text('name').notNull(),
     colorVariant: text('color_variant').notNull().default('default'),
