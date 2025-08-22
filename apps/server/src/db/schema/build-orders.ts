@@ -8,6 +8,7 @@ import {
   timestamp,
 } from 'drizzle-orm/pg-core';
 import { timestamps } from '../shared';
+import { users } from './auth';
 import { buildOrderSteps } from './build-order-steps';
 import { buildOrdersToOpponentFactions } from './build-orders-to-opponent-factions';
 import { buildOrdersToTags } from './build-orders-to-tags';
@@ -53,6 +54,10 @@ export const buildOrdersRelations = relations(buildOrders, ({ one, many }) => ({
   faction: one(factions, {
     fields: [buildOrders.factionId],
     references: [factions.id],
+  }),
+  user: one(users, {
+    fields: [buildOrders.userId],
+    references: [users.id],
   }),
   steps: many(buildOrderSteps),
   opponentFactions: many(buildOrdersToOpponentFactions),
