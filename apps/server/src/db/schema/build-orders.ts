@@ -7,6 +7,7 @@ import {
   text,
   timestamp,
 } from 'drizzle-orm/pg-core';
+import { createInsertSchema } from 'drizzle-zod';
 import { timestamps } from '../shared';
 import { users } from './auth';
 import { buildOrderSteps } from './build-order-steps';
@@ -64,3 +65,5 @@ export const buildOrdersRelations = relations(buildOrders, ({ one, many }) => ({
   tags: many(buildOrdersToTags),
   favorites: many(favorites),
 }));
+
+export const insertBuildOrderSchema = createInsertSchema(buildOrders);
