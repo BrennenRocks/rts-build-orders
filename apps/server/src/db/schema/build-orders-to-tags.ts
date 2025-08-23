@@ -1,5 +1,6 @@
 import { relations } from 'drizzle-orm';
 import { index, integer, pgTable, primaryKey } from 'drizzle-orm/pg-core';
+import { createInsertSchema, createUpdateSchema } from 'drizzle-zod';
 import { buildOrders } from './build-orders';
 import { tags } from './tags';
 
@@ -33,3 +34,6 @@ export const buildOrdersToTagsRelations = relations(
     }),
   })
 );
+
+export const insertBuildOrderToTagSchema = createInsertSchema(buildOrdersToTags);
+export const updateBuildOrderToTagSchema = createUpdateSchema(buildOrdersToTags);

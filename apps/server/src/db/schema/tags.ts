@@ -7,6 +7,7 @@ import {
   text,
   uniqueIndex,
 } from 'drizzle-orm/pg-core';
+import { createInsertSchema, createUpdateSchema } from 'drizzle-zod';
 import { timestamps } from '../shared';
 import { buildOrdersToTags } from './build-orders-to-tags';
 import { games } from './games';
@@ -46,3 +47,6 @@ export const tagsRelations = relations(tags, ({ one, many }) => ({
   }),
   buildOrders: many(buildOrdersToTags),
 }));
+
+export const insertTagSchema = createInsertSchema(tags);
+export const updateTagSchema = createUpdateSchema(tags);

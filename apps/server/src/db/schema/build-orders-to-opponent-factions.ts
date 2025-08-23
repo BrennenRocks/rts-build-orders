@@ -1,5 +1,6 @@
 import { relations } from 'drizzle-orm';
 import { index, integer, pgTable, primaryKey } from 'drizzle-orm/pg-core';
+import { createInsertSchema, createUpdateSchema } from 'drizzle-zod';
 import { buildOrders } from './build-orders';
 import { factions } from './factions';
 
@@ -32,4 +33,11 @@ export const buildOrdersToOpponentFactionsRelations = relations(
       references: [factions.id],
     }),
   })
+);
+
+export const insertBuildOrderToOpponentFactionSchema = createInsertSchema(
+  buildOrdersToOpponentFactions
+);
+export const updateBuildOrderToOpponentFactionSchema = createUpdateSchema(
+  buildOrdersToOpponentFactions
 );

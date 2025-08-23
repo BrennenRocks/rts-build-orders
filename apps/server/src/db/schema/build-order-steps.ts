@@ -7,6 +7,7 @@ import {
   text,
   uniqueIndex,
 } from 'drizzle-orm/pg-core';
+import { createInsertSchema, createUpdateSchema } from 'drizzle-zod';
 import { timestamps } from '../shared';
 import { buildOrders } from './build-orders';
 import { stepResources } from './step-resources';
@@ -43,3 +44,6 @@ export const buildOrderStepsRelations = relations(
     resources: many(stepResources),
   })
 );
+
+export const insertBuildOrderStepSchema = createInsertSchema(buildOrderSteps);
+export const updateBuildOrderStepSchema = createUpdateSchema(buildOrderSteps);

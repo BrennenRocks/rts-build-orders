@@ -1,5 +1,6 @@
 import { relations } from 'drizzle-orm';
 import { index, integer, pgTable, serial } from 'drizzle-orm/pg-core';
+import { createInsertSchema, createUpdateSchema } from 'drizzle-zod';
 import { timestamps } from '../shared';
 import { buildOrderSteps } from './build-order-steps';
 import { resources } from './resources';
@@ -33,3 +34,6 @@ export const stepResourcesRelations = relations(stepResources, ({ one }) => ({
     references: [resources.id],
   }),
 }));
+
+export const insertStepResourceSchema = createInsertSchema(stepResources);
+export const updateStepResourceSchema = createUpdateSchema(stepResources);

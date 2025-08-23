@@ -6,8 +6,9 @@ import {
   serial,
   text,
   timestamp,
+  uuid,
 } from 'drizzle-orm/pg-core';
-import { createInsertSchema } from 'drizzle-zod';
+import { createInsertSchema, createUpdateSchema } from 'drizzle-zod';
 import { timestamps } from '../shared';
 import { users } from './auth';
 import { buildOrderSteps } from './build-order-steps';
@@ -21,8 +22,10 @@ export const buildOrders = pgTable(
   'build_orders',
   {
     id: serial('id').primaryKey(),
-    uuid: text('uuid').notNull().unique(),
-    userId: text('user_id').notNull(),
+    uuid: uuid('uuid').defaultRandom().notNull().unique(),
+    userId: text('user_id')
+      .notNull()
+      .references(() => users.id),
     gameId: integer('game_id')
       .notNull()
       .references(() => games.id, { onDelete: 'cascade' }),
@@ -67,3 +70,4 @@ export const buildOrdersRelations = relations(buildOrders, ({ one, many }) => ({
 }));
 
 export const insertBuildOrderSchema = createInsertSchema(buildOrders);
+export const updateBuildOrderSchema = createUpdateSchema(buildOrders);
