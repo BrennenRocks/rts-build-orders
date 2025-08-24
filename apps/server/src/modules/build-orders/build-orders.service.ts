@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { eq, type TablesRelationalConfig } from 'drizzle-orm';
+import { and, eq, isNull, type TablesRelationalConfig } from 'drizzle-orm';
 import type { PgQueryResultHKT, PgTransaction } from 'drizzle-orm/pg-core';
 import { z } from 'zod';
 import { db } from '@/db';
@@ -8,6 +8,7 @@ import {
   buildOrders,
   buildOrdersToOpponentFactions,
   buildOrdersToTags,
+  factions,
   stepResources,
 } from '@/db/schema';
 import {
@@ -54,6 +55,23 @@ export type CreateBuildOrderInput = z.infer<typeof createBuildOrderSchema>;
 export type UpdateBuildOrderInput = z.infer<typeof updateBuildOrderSchema> & {
   id: number;
 };
+
+// Constants for pagination limits
+const MIN_LIMIT = 1;
+const MAX_LIMIT = 100;
+const DEFAULT_LIMIT = 20;
+const DEFAULT_OFFSET = 0;
+
+// Schema for paginated build orders query
+export const getBuildOrdersSchema = z.object({
+  limit: z.number().min(MIN_LIMIT).max(MAX_LIMIT).default(DEFAULT_LIMIT),
+  offset: z.number().min(DEFAULT_OFFSET).default(DEFAULT_OFFSET),
+  factionSlug: z.string().optional(),
+  opponentFactionSlugs: z.array(z.string()).optional(),
+  tagSlugs: z.array(z.string()).optional(),
+});
+
+export type GetBuildOrdersInput = z.infer<typeof getBuildOrdersSchema>;
 
 type StepResourceInput = Omit<
   z.infer<typeof insertStepResourceSchema>,
@@ -298,6 +316,140 @@ export async function getBuildOrderById(id: number) {
   }
 
   return buildOrder;
+}
+
+export async function getBuildOrders(input: GetBuildOrdersInput) {
+  const { limit, offset, factionSlug, opponentFactionSlugs, tagSlugs } = input;
+
+  // Build the where conditions
+  const conditions = [
+    isNull(buildOrders.deletedAt), // Only get non-deleted build orders
+  ];
+
+  // Handle faction slug filtering
+  if (factionSlug) {
+    // First get the faction ID from the slug
+    const faction = await db.query.factions.findFirst({
+      where: eq(factions.slug, factionSlug),
+      columns: { id: true },
+    });
+
+    if (faction) {
+      conditions.push(eq(buildOrders.factionId, faction.id));
+    } else {
+      // If faction doesn't exist, return empty results
+      return {
+        data: [],
+        pagination: {
+          total: 0,
+          limit,
+          offset,
+          hasMore: false,
+        },
+      };
+    }
+  }
+
+  const query = db.query.buildOrders.findMany({
+    where: and(...conditions),
+    with: {
+      game: true,
+      faction: true,
+      tags: {
+        with: {
+          tag: true,
+        },
+      },
+      opponentFactions: {
+        with: {
+          faction: true,
+        },
+      },
+    },
+    limit,
+    offset,
+    orderBy: (buildOrdersTable, { desc }) => [desc(buildOrdersTable.createdAt)],
+  });
+
+  let results = await query;
+
+  // Apply client-side filtering for opponent factions and tags if needed
+  if (opponentFactionSlugs?.length) {
+    results = results.filter((buildOrder) =>
+      buildOrder.opponentFactions.some((of) =>
+        opponentFactionSlugs.includes(of.faction.slug)
+      )
+    );
+  }
+
+  if (tagSlugs?.length) {
+    results = results.filter((buildOrder) =>
+      tagSlugs.every((tagSlug) =>
+        buildOrder.tags.some((t) => t.tag.slug === tagSlug)
+      )
+    );
+  }
+
+  // Get total count for pagination metadata
+  const totalQuery = db.query.buildOrders.findMany({
+    where: and(...conditions),
+    columns: { id: true },
+  });
+
+  let totalResults = await totalQuery;
+
+  // Apply the same filters to total count
+  if (opponentFactionSlugs?.length) {
+    const fullResults = await db.query.buildOrders.findMany({
+      where: and(...conditions),
+      with: {
+        opponentFactions: {
+          with: {
+            faction: true,
+          },
+        },
+      },
+      columns: { id: true },
+    });
+
+    totalResults = fullResults.filter((buildOrder) =>
+      buildOrder.opponentFactions.some((of) =>
+        opponentFactionSlugs.includes(of.faction.slug)
+      )
+    );
+  }
+
+  if (tagSlugs?.length) {
+    const fullResults = await db.query.buildOrders.findMany({
+      where: and(...conditions),
+      with: {
+        tags: {
+          with: {
+            tag: true,
+          },
+        },
+      },
+      columns: { id: true },
+    });
+
+    totalResults = fullResults.filter((buildOrder) =>
+      tagSlugs.every((tagSlug) =>
+        buildOrder.tags.some((t) => t.tag.slug === tagSlug)
+      )
+    );
+  }
+
+  const total = totalResults.length;
+
+  return {
+    data: results,
+    pagination: {
+      total,
+      limit,
+      offset,
+      hasMore: offset + limit < total,
+    },
+  };
 }
 
 export async function deleteBuildOrder(id: number) {

@@ -6,11 +6,17 @@ import {
   createBuildOrderSchema,
   deleteBuildOrder,
   getBuildOrderById,
+  getBuildOrders,
+  getBuildOrdersSchema,
   updateBuildOrder,
   updateBuildOrderSchema,
 } from './build-orders.service';
 
 export const buildOrdersRouter = router({
+  getMany: publicProcedure
+    .input(getBuildOrdersSchema)
+    .query(({ input }) => getBuildOrders(input)),
+
   create: protectedProcedure
     .input(createBuildOrderSchema)
     .mutation(({ input, ctx }) => {
