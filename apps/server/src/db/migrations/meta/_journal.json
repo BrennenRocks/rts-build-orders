@@ -22,6 +22,13 @@
       "when": 1755843444590,
       "tag": "0002_games-factions-resources-tags-initial-seeding",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1755995628742,
+      "tag": "0003_whole_fallen_one",
+      "breakpoints": true
     }
   ]
 }
