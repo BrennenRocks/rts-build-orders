@@ -1,13 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
-@import "tailwindcss";
-@import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans:
-    "Inter", "Geist", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: 'Inter', 'Geist', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 html,
@@ -200,6 +199,30 @@ body {
   --tracking-wide: calc(var(--tracking-normal) + 0.025em);
   --tracking-wider: calc(var(--tracking-normal) + 0.05em);
   --tracking-widest: calc(var(--tracking-normal) + 0.1em);
+
+  --color-celestial: oklch(0.5014 0.1986 314.88);
+  --color-celestial-foreground: oklch(0.99 0.02 314.88);
+  --color-infernal: oklch(0.5614 0.1846 33.37);
+  --color-infernal-foreground: oklch(0.99 0.02 33.37);
+  --color-vanguard: oklch(0.5517 0.1548 250.72);
+  --color-vanguard-foreground: oklch(0.99 0.02 250.72);
+
+  --color-rus: oklch(0.6094 0.1707 27.51);
+  --color-rus-foreground: oklch(0.99 0.02 27.51);
+  --color-holy-roman-empire: oklch(0.8167 0.1382 97.22);
+  --color-holy-roman-empire-foreground: oklch(0.99 0.02 97.22);
+  --color-chinese: oklch(0.5488 0.1525 33.23);
+  --color-chinese-foreground: oklch(0.99 0.02 33.23);
+  --color-english: oklch(0.8908 0.0077 228.86);
+  --color-english-foreground: oklch(0.4002 0.0287 240.8346);
+  --color-delhi-sultanate: oklch(0.5803 0.1279 155.22);
+  --color-delhi-sultanate-foreground: oklch(0.99 0.02 155.22);
+  --color-mongols: oklch(0.605 0.1315 240.4);
+  --color-mongols-foreground: oklch(0.99 0.02 240.4);
+  --color-abbasid-dynasty: oklch(0.3295 0.0071 274.76);
+  --color-abbasid-dynasty-foreground: oklch(0.99 0.02 274.76);
+  --color-french: oklch(0.6854 0.1557 245.34);
+  --color-french-foreground: oklch(0.99 0.02 245.34);
 }
 
 @layer base {
