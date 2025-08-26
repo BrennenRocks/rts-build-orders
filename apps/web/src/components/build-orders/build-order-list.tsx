@@ -17,6 +17,7 @@ export default function BuildOrderList() {
     })
   );
 
+  console.log({ buildOrdersData });
   return (
     <div className="flex flex-col gap-4">
       {buildOrdersData.data.map((buildOrder) => (

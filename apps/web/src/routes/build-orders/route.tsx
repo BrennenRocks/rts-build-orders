@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { Suspense } from 'react';
 import z from 'zod';
 import BuildOrderList from '@/components/build-orders/build-order-list';
 
@@ -15,5 +16,9 @@ export const Route = createFileRoute('/build-orders')({
 });
 
 function RouteComponent() {
-  return <BuildOrderList />;
+  return (
+    <Suspense fallback={<div>Build Orders Loading...</div>}>
+      <BuildOrderList />
+    </Suspense>
+  );
 }
