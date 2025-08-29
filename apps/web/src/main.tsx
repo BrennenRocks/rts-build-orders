@@ -6,9 +6,9 @@ import Loader from './components/loader';
 import { routeTree } from './routeTree.gen';
 import { queryClient, trpc } from './utils/trpc';
 
-// scan({
-//   enabled: import.meta.env.DEV,
-// });
+scan({
+  enabled: import.meta.env.DEV,
+});
 
 const router = createRouter({
   routeTree,
@@ -23,6 +23,7 @@ const router = createRouter({
 });
 
 declare module '@tanstack/react-router' {
+  // biome-ignore lint/nursery/useConsistentTypeDefinitions: I want to override the interface
   interface Register {
     router: typeof router;
   }

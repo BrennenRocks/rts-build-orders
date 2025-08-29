@@ -17,12 +17,13 @@ export default function BuildOrderList() {
     })
   );
 
-  console.log({ buildOrdersData });
   return (
-    <div className="flex flex-col gap-4">
-      {buildOrdersData.data.map((buildOrder) => (
-        <BuildOrderItem buildOrder={buildOrder} key={buildOrder.id} />
-      ))}
+    <div className="container mx-auto">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {buildOrdersData.data.map((buildOrder) => (
+          <BuildOrderItem buildOrder={buildOrder} key={buildOrder.id} />
+        ))}
+      </div>
     </div>
   );
 }
