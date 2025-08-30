@@ -1,41 +1,70 @@
 import type { inferRouterOutputs } from '@trpc/server';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Swords } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import type { AppRouter } from '../../../../server/src/routers';
 import { Card } from '../ui/card';
 
 const buildOrderItemVariants = cva(
-  'relative overflow-hidden rounded-xl border-2 shadow-[0_0_6px_1px_rgba(0,0,0,0.3)] transition-all hover:scale-[1.01]',
+  'relative overflow-hidden rounded-xl border-2 shadow-[0_0_6px_1px_rgba(0,0,0,0.3)]',
   {
     variants: {
       faction: {
         // Stormgate factions
         celestial:
-          'border-stormgate-celestial/20 bg-stormgate-celestial shadow-[0_4px_20px_rgba(128,32,196,0.4)]',
+          'border-stormgate-celestial/20 bg-stormgate-celestial/15 shadow-stormgate-celestial',
         infernals:
-          'border-stormgate-infernal/20 bg-stormgate-infernal shadow-[0_4px_20px_rgba(143,47,30,0.4)]',
+          'border-stormgate-infernal/20 bg-stormgate-infernal/15 shadow-stormgate-infernal',
         vanguard:
-          'border-stormgate-vanguard/20 bg-stormgate-vanguard shadow-[0_4px_20px_rgba(89,89,176,0.4)]',
+          'border-stormgate-vanguard/20 bg-stormgate-vanguard/15 shadow-stormgate-vanguard',
+
         // AoE4 factions
-        rus: 'border-aoe4-rus/20 bg-aoe4-rus shadow-[0_0_6px_1px_rgba(0,0,0,0.3)]',
-        'holy-roman-empire':
-          'border-aoe4-holy-roman-empire/20 bg-aoe4-holy-roman-empire shadow-[0_4px_20px_rgba(208,172,35,0.4)]',
-        chinese:
-          'border-aoe4-chinese/20 bg-aoe4-chinese shadow-[0_4px_20px_rgba(139,42,33,0.4)]',
-        english:
-          'border-aoe4-english/20 bg-aoe4-english shadow-[0_4px_20px_rgba(227,227,227,0.4)]',
-        'delhi-sultanate':
-          'border-aoe4-delhi-sultanate/20 bg-aoe4-delhi-sultanate shadow-[0_4px_20px_rgba(74,148,82,0.4)]',
-        french:
-          'border-aoe4-french/20 bg-aoe4-french shadow-[0_0_6px_1px_rgba(0,0,0,0.3)]',
-        mongols:
-          'border-aoe4-mongols/20 bg-aoe4-mongols shadow-[0_4px_20px_rgba(97,97,154,0.4)]',
         'abbasid-dynasty':
-          'border-aoe4-abbasid-dynasty/20 bg-aoe4-abbasid-dynasty shadow-[0_4px_20px_rgba(84,84,84,0.4)]',
+          'border-aoe4-abbasid-dynasty/20 bg-aoe4-abbasid-dynasty/15 shadow-aoe4-abbasid-dynasty',
+        ayyubids:
+          'border-aoe4-ayyubids/20 bg-aoe4-ayyubids/15 shadow-aoe4-ayyubids',
+        byzantines:
+          'border-aoe4-byzantines/20 bg-aoe4-byzantines/15 shadow-aoe4-byzantines',
+        chinese:
+          'border-aoe4-chinese/20 bg-aoe4-chinese/15 shadow-aoe4-chinese',
+        'delhi-sultanate':
+          'border-aoe4-delhi-sultanate/20 bg-aoe4-delhi-sultanate/15 shadow-aoe4-delhi-sultanate',
+        english:
+          'border-aoe4-english/20 bg-aoe4-english/15 shadow-aoe4-english',
+        french: 'border-aoe4-french/20 bg-aoe4-french/15 shadow-aoe4-french',
+        'holy-roman-empire':
+          'border-aoe4-holy-roman-empire/20 bg-aoe4-holy-roman-empire/15 shadow-aoe4-holy-roman-empire',
+        'house-of-lancaster':
+          'border-aoe4-house-of-lancaster/20 bg-aoe4-house-of-lancaster/15 shadow-aoe4-house-of-lancaster',
+        japanese:
+          'border-aoe4-japanese/20 bg-aoe4-japanese/15 shadow-aoe4-japanese',
+        'jeanne-darc':
+          'border-aoe4-jeanne-darc/20 bg-aoe4-jeanne-darc/15 shadow-aoe4-jeanne-darc',
+        'knights-templar':
+          'border-aoe4-knights-templar/20 bg-aoe4-knights-templar/15 shadow-aoe4-knights-templar',
+        malian: 'border-aoe4-malian/20 bg-aoe4-malian/15 shadow-aoe4-malian',
+        mongols:
+          'border-aoe4-mongols/20 bg-aoe4-mongols/15 shadow-aoe4-mongols',
+        'order-of-the-dragon':
+          'border-aoe4-order-of-the-dragon/20 bg-aoe4-order-of-the-dragon/15 shadow-aoe4-order-of-the-dragon',
+        rus: 'border-aoe4-rus/20 bg-aoe4-rus/15 shadow-aoe4-rus',
+        'zhu-xis-legacy':
+          'border-aoe4-zhu-xis-legacy/20 bg-aoe4-zhu-xis-legacy/15 shadow-aoe4-zhu-xis-legacy',
+
+        // WC3 factions
+        human: 'border-wc3-human/20 bg-wc3-human/15 shadow-wc3-human',
         orc: 'border-wc3-orc/20 bg-wc3-orc/15 shadow-wc3-orc',
+        undead: 'border-wc3-undead/20 bg-wc3-undead/15 shadow-wc3-undead',
+        'night-elf':
+          'border-wc3-night-elf/20 bg-wc3-night-elf/15 shadow-wc3-night-elf',
+
+        // SC2 factions
+        zerg: 'border-sc2-zerg/20 bg-sc2-zerg/15 shadow-sc2-zerg',
+        protoss: 'border-sc2-protoss/20 bg-sc2-protoss/15 shadow-sc2-protoss',
+        terran: 'border-sc2-terran/20 bg-sc2-terran/15 shadow-sc2-terran',
+
         // Default fallback
-        default:
-          'border-gray-200 bg-gray-200 shadow-[0_4px_20px_rgba(156,163,175,0.4)]',
+        default: 'border-gray-200/20 bg-gray-200/15 shadow-gray-200',
       },
     },
     defaultVariants: {
@@ -49,7 +78,6 @@ type BuildOrderItemProps = {
 };
 
 export default function BuildOrderItem({ buildOrder }: BuildOrderItemProps) {
-  console.log({ faction: buildOrder.faction.slug });
   // Get tags from the actual data
   const tags = buildOrder.tags?.map((tag) => tag.tag.name) || [];
 
@@ -73,64 +101,62 @@ export default function BuildOrderItem({ buildOrder }: BuildOrderItemProps) {
     >['faction']) || 'default';
 
   return (
-    <Card className={buildOrderItemVariants({ faction: factionVariant })}>
-      {/* Header with faction images and swords icon */}
-      <div className="flex items-center justify-center gap-3 p-4">
+    <Card
+      className={cn(
+        buildOrderItemVariants({ faction: factionVariant }),
+        'gap-y-2 p-3'
+      )}
+    >
+      {/* Title with faction images */}
+      <div className="flex items-center gap-2">
         {/* Player faction */}
-        <div className="flex size-32 items-center justify-center rounded-lg bg-black/20">
-          <img
-            alt={buildOrder.faction.name}
-            className="size-32 rounded-lg object-cover"
-            src={`https://images.rtsbuildorders.com/${buildOrder.game.slug}/${buildOrder.faction.slug}.webp`}
-          />
-        </div>
+        <img
+          alt={buildOrder.faction.name}
+          className="size-7 rounded object-cover"
+          src={`https://images.rtsbuildorders.com/${buildOrder.game.slug}/${buildOrder.faction.slug}.webp`}
+        />
 
         {/* Swords icon */}
-        <Swords className="size-6 text-white" />
+        <Swords className="size-3 text-white" />
 
         {/* Opponent faction */}
-        <div className="flex size-32 items-center justify-center rounded-lg bg-black/20">
-          {opponentFaction ? (
-            <img
-              alt={opponentFaction.name}
-              className="size-32 rounded-lg object-cover"
-              src={`https://images.rtsbuildorders.com/${buildOrder.game.slug}/${opponentFaction.slug}.webp`}
-            />
-          ) : (
-            <span className="font-bold text-2xl text-white">?</span>
-          )}
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="space-y-3 p-4">
-        {/* Title */}
-        <h2 className="font-bold text-lg text-white leading-tight">
-          {buildOrder.name}
-        </h2>
-
-        {/* Description */}
-        <p className="line-clamp-2 text-sm text-white/80">
-          {buildOrder.description}
-        </p>
-
-        {/* Tags */}
-        {tags.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {tags.map((tag) => (
-              <span
-                className="rounded-md bg-black/30 px-2 py-1 font-medium text-white text-xs"
-                key={tag}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+        {opponentFaction ? (
+          <img
+            alt={opponentFaction.name}
+            className="size-7 rounded object-cover"
+            src={`https://images.rtsbuildorders.com/${buildOrder.game.slug}/${opponentFaction.slug}.webp`}
+          />
+        ) : (
+          <span className="font-bold text-sm text-white">?</span>
         )}
 
-        {/* Updated date */}
-        <div className="text-white/70 text-xs">Updated on {updatedDate}</div>
+        {/* Title */}
+        <h2 className="ml-2 font-bold text-lg text-white leading-tight">
+          {buildOrder.name}
+        </h2>
       </div>
+
+      {/* Description */}
+      <p className="line-clamp-2 text-sm text-white/80">
+        {buildOrder.description}
+      </p>
+
+      {/* Tags */}
+      {tags.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span
+              className="rounded-md bg-black/30 px-2 py-1 font-medium text-white text-xs"
+              key={tag}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Updated date */}
+      <div className="text-white/70 text-xs">Updated on {updatedDate}</div>
     </Card>
   );
 }
