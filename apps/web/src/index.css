@@ -1,12 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: 'Inter', 'Geist', ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-sans:
+    "Inter", "Geist", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 html,
@@ -242,14 +243,14 @@ body {
   --color-aoe4-zhu-xis-legacy: oklch(0.6464 0.0911 197.95);
   --color-aoe4-zhu-xis-legacy-foreground: oklch(0.99 0.02 197.95);
 
-  --color-warcraft-human: oklch(0.656 0.1415 238.67);
-  --color-warcraft-human-foreground: oklch(0.99 0.02 238.67);
-  --color-warcraft-orc: oklch(0.6032 0.1988 21.76);
-  --color-warcraft-orc-foreground: oklch(0.99 0.02 21.76);
-  --color-warcraft-undead: oklch(0.5787 0.1508 315.2);
-  --color-warcraft-undead-foreground: oklch(0.99 0.02 315.2);
-  --color-warcraft-night-elf: oklch(0.6564 0.1712 150.74);
-  --color-warcraft-night-elf-foreground: oklch(0.99 0.02 150.74);
+  --color-wc3-human: oklch(0.656 0.1415 238.67);
+  --color-wc3-human-foreground: oklch(0.99 0.02 238.67);
+  --color-wc3-orc: oklch(0.6032 0.1988 21.76);
+  --color-wc3-orc-foreground: oklch(0.99 0.02 21.76);
+  --color-wc3-undead: oklch(0.5787 0.1508 315.2);
+  --color-wc3-undead-foreground: oklch(0.99 0.02 315.2);
+  --color-wc3-night-elf: oklch(0.6564 0.1712 150.74);
+  --color-wc3-night-elf-foreground: oklch(0.99 0.02 150.74);
 
   --color-sc2-zerg: oklch(0.4691 0.1783 324.18);
   --color-sc2-zerg-foreground: oklch(0.99 0.02 324.18);
