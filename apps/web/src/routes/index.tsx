@@ -207,7 +207,7 @@ function RouteComponent() {
             Follow along on{' '}
             <a
               className="text-primary underline transition-colors hover:text-primary/80"
-              href="https://x.com/elevated_sw"
+              href="https://x.com/brennendav1s"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -247,7 +247,7 @@ function RouteComponent() {
             Follow along on{' '}
             <a
               className="text-primary underline transition-colors hover:text-primary/80"
-              href="https://x.com/elevated_sw"
+              href="https://x.com/brennendav1s"
               rel="noopener noreferrer"
               target="_blank"
             >
