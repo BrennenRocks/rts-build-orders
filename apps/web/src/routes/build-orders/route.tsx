@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import z from 'zod';
 import BuildOrderList from '@/components/build-orders/build-order-list';
 
-const DEFAULT_LIMIT = 20;
+const DEFAULT_LIMIT = 9;
 export const Route = createFileRoute('/build-orders')({
   validateSearch: z.object({
     limit: z.number().default(DEFAULT_LIMIT),
