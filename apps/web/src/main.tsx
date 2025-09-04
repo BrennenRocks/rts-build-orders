@@ -2,7 +2,6 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import ReactDOM from 'react-dom/client';
 import { scan } from 'react-scan';
-import Loader from './components/loader';
 import { routeTree } from './routeTree.gen';
 import { queryClient, trpc } from './utils/trpc';
 
@@ -13,7 +12,8 @@ scan({
 const router = createRouter({
   routeTree,
   defaultPreload: 'intent',
-  defaultPendingComponent: () => <Loader />,
+  defaultStaleTime: Number.POSITIVE_INFINITY,
+  // defaultPendingComponent: () => <Loader />,
   context: { trpc, queryClient, user: null },
   Wrap({ children }: { children: React.ReactNode }) {
     return (

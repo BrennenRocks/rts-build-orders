@@ -1,9 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { Suspense } from 'react';
 import z from 'zod';
 import BuildOrderList from '@/components/build-orders/build-order-list';
 
-const DEFAULT_LIMIT = 9;
+export const DEFAULT_LIMIT = 12;
 export const Route = createFileRoute('/build-orders')({
   validateSearch: z.object({
     limit: z.number().default(DEFAULT_LIMIT),
@@ -12,13 +11,24 @@ export const Route = createFileRoute('/build-orders')({
     opponentFactionSlugs: z.array(z.string()).optional().default([]),
     tagSlugs: z.array(z.string()).optional().default([]),
   }),
+  loaderDeps: ({
+    search: { limit, offset, factionSlug, opponentFactionSlugs, tagSlugs },
+  }) => ({ limit, offset, factionSlug, opponentFactionSlugs, tagSlugs }),
+  loader: ({ context, deps }) => {
+    return context.queryClient.ensureQueryData(
+      context.trpc.buildOrders.getMany.queryOptions({
+        limit: deps.limit,
+        offset: deps.offset,
+        factionSlug: deps.factionSlug,
+        opponentFactionSlugs: deps.opponentFactionSlugs,
+        tagSlugs: deps.tagSlugs,
+      })
+    );
+  },
+  pendingComponent: BuildOrderList.Loading,
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  return (
-    <Suspense fallback={<div>Build Orders Loading...</div>}>
-      <BuildOrderList />
-    </Suspense>
-  );
+  return <BuildOrderList />;
 }

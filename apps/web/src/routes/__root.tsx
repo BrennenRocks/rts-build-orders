@@ -3,10 +3,8 @@ import {
   createRootRouteWithContext,
   HeadContent,
   Outlet,
-  useRouterState,
 } from '@tanstack/react-router';
 import Header from '@/components/header';
-import Loader from '@/components/loader';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import type { trpc } from '@/utils/trpc';
@@ -49,9 +47,9 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 });
 
 function RootComponent() {
-  const isFetching = useRouterState({
-    select: (s) => s.isLoading,
-  });
+  // const isFetching = useRouterState({
+  //   select: (s) => s.isLoading,
+  // });
 
   return (
     <>
@@ -64,7 +62,7 @@ function RootComponent() {
       >
         <div className="relative h-svh">
           <Header />
-          {isFetching ? <Loader /> : <Outlet />}
+          <Outlet />
           {/* <Footer /> */}
         </div>
         <Toaster richColors />

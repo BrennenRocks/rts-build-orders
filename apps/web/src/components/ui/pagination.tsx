@@ -1,10 +1,12 @@
+import { Link, type LinkComponentProps } from '@tanstack/react-router';
+import type { VariantProps } from 'class-variance-authority';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   MoreHorizontalIcon,
 } from 'lucide-react';
 import type * as React from 'react';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 function Pagination({ className, ...props }: React.ComponentProps<'nav'>) {
@@ -38,7 +40,8 @@ function PaginationItem({ ...props }: React.ComponentProps<'li'>) {
 type PaginationLinkProps = {
   isActive?: boolean;
   isDisabled?: boolean;
-} & React.ComponentProps<typeof Button>;
+} & LinkComponentProps<typeof Link> &
+  VariantProps<typeof buttonVariants>;
 
 function PaginationLink({
   className,
@@ -48,14 +51,15 @@ function PaginationLink({
   ...props
 }: PaginationLinkProps) {
   return (
-    <Button
+    <Link
       aria-current={isActive ? 'page' : undefined}
-      className={className}
+      className={cn(
+        className,
+        buttonVariants({ size, variant: isActive ? 'outline' : 'ghost' })
+      )}
       data-active={isActive}
       data-slot="pagination-link"
       disabled={isDisabled}
-      size={size}
-      variant={isActive ? 'outline' : 'ghost'}
       {...props}
     />
   );

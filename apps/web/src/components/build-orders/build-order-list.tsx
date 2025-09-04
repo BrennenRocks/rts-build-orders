@@ -1,13 +1,13 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { useNavigate, useSearch } from '@tanstack/react-router';
-import type { inferRouterOutputs } from '@trpc/server';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { useSearch } from '@tanstack/react-router';
 import {
   ChevronFirstIcon,
   ChevronLastIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  Swords,
 } from 'lucide-react';
-import { useTransition } from 'react';
+import { Card } from '@/components/ui/card';
 import {
   Pagination,
   PaginationContent,
@@ -15,136 +15,100 @@ import {
   PaginationItem,
   PaginationLink,
 } from '@/components/ui/pagination';
+import { Skeleton } from '@/components/ui/skeleton';
 import { usePagination } from '@/hooks/use-pagination';
+import { DEFAULT_LIMIT } from '@/routes/build-orders/route';
 import { trpc } from '@/utils/trpc';
-import type { AppRouter } from '../../../../server/src/routers';
 import BuildOrderItem from './build-order-item';
 
-// Wrapper component that handles data fetching and loading/error states
-function BuildOrderListContainer() {
+// Skeleton component for individual build order items
+function BuildOrderItemSkeleton() {
+  return (
+    <Card className="gap-y-2 border-2 border-gray-200/20 bg-gray-200/15 p-3 shadow-[0_0_6px_1px_rgba(0,0,0,0.3)]">
+      {/* Title with faction images */}
+      <div className="flex items-center gap-2">
+        {/* Player faction skeleton */}
+        <Skeleton className="size-7 rounded" />
+
+        {/* Swords icon */}
+        <Swords className="size-3 text-white" />
+
+        {/* Opponent faction skeleton */}
+        <Skeleton className="size-7 rounded" />
+
+        {/* Title skeleton */}
+        <Skeleton className="ml-2 h-6 w-32" />
+      </div>
+
+      {/* Description skeleton */}
+      <div className="space-y-1">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-3/4" />
+      </div>
+
+      {/* Tags skeleton */}
+      <div className="flex gap-2">
+        <Skeleton className="h-5 w-16 rounded-md" />
+        <Skeleton className="h-5 w-20 rounded-md" />
+        <Skeleton className="h-5 w-12 rounded-md" />
+      </div>
+
+      {/* Updated date skeleton */}
+      <Skeleton className="h-3 w-24" />
+    </Card>
+  );
+}
+
+// Loading component for BuildOrderList
+function Loading() {
+  return (
+    <div className="container mx-auto">
+      {/* Grid of skeleton items */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 9 }).map((_, index) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: Skeleton list is static
+          <BuildOrderItemSkeleton key={index} />
+        ))}
+      </div>
+
+      {/* Pagination skeleton */}
+      <div className="mt-8 flex items-center justify-center gap-4">
+        {/* Page information skeleton */}
+        <Skeleton className="h-4 w-20" />
+
+        {/* Pagination controls skeleton */}
+        <div className="flex items-center gap-1">
+          <Skeleton className="h-9 w-9 rounded-md" />
+          <Skeleton className="h-9 w-6 rounded-md" />
+          <Skeleton className="h-9 w-9 rounded-md" />
+          <Skeleton className="h-9 w-9 rounded-md" />
+          <Skeleton className="h-9 w-9 rounded-md" />
+          <Skeleton className="h-9 w-6 rounded-md" />
+          <Skeleton className="h-9 w-9 rounded-md" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function BuildOrderList() {
   const {
-    limit = 9,
+    limit = DEFAULT_LIMIT,
     offset = 0,
     opponentFactionSlugs,
     tagSlugs,
     factionSlug,
   } = useSearch({ from: '/build-orders' });
 
-  const {
-    data: buildOrdersData,
-    isFetching,
-    isPending,
-    error,
-    isPlaceholderData,
-  } = useQuery({
-    ...trpc.buildOrders.getMany.queryOptions({
+  const { data: buildOrdersData } = useSuspenseQuery(
+    trpc.buildOrders.getMany.queryOptions({
       limit,
       offset,
       opponentFactionSlugs,
       tagSlugs,
       factionSlug,
-    }),
-    placeholderData: keepPreviousData,
-    staleTime: 5000,
-  });
-
-  console.log({ isFetching, isPending, isPlaceholderData });
-  // Handle loading state
-  if (isPending && !buildOrdersData) {
-    return (
-      <div className="container mx-auto">
-        <div className="flex items-center justify-center py-8">
-          <div className="text-muted-foreground">Loading build orders...</div>
-        </div>
-      </div>
-    );
-  }
-
-  // Handle error state
-  if (error) {
-    return (
-      <div className="container mx-auto">
-        <div className="flex items-center justify-center py-8">
-          <div className="text-destructive">
-            Error loading build orders: {error.message}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Ensure we have data before rendering
-  if (!buildOrdersData) {
-    return (
-      <div className="container mx-auto">
-        <div className="flex items-center justify-center py-8">
-          <div className="text-muted-foreground">No data available</div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <BuildOrderList
-      buildOrdersData={buildOrdersData}
-      factionSlug={factionSlug}
-      limit={limit}
-      offset={offset}
-      opponentFactionSlugs={opponentFactionSlugs}
-      tagSlugs={tagSlugs}
-    />
+    })
   );
-}
-
-type BuildOrderListProps = {
-  buildOrdersData: inferRouterOutputs<AppRouter>['buildOrders']['getMany'];
-  limit: number;
-  offset: number;
-  opponentFactionSlugs?: string[];
-  tagSlugs?: string[];
-  factionSlug?: string;
-};
-
-function BuildOrderList({
-  buildOrdersData,
-  limit,
-  offset,
-  opponentFactionSlugs,
-  tagSlugs,
-  factionSlug,
-}: BuildOrderListProps) {
-  const navigate = useNavigate({ from: '/build-orders' });
-  const [isTransitioning, startTransition] = useTransition();
-
-  // Preload previous page for better performance (only if there's a previous page)
-  const prevPageOffset = Math.max(0, offset - limit);
-  const hasPrevPage = offset > 0;
-  useQuery({
-    ...trpc.buildOrders.getMany.queryOptions({
-      limit,
-      offset: prevPageOffset,
-      opponentFactionSlugs,
-      tagSlugs,
-      factionSlug,
-    }),
-    enabled: hasPrevPage,
-    staleTime: 5000,
-  });
-
-  // Preload next page for better performance (only if there's a next page)
-  const nextPageOffset = offset + limit;
-  const hasNextPage = nextPageOffset < buildOrdersData.pagination.total;
-  useQuery({
-    ...trpc.buildOrders.getMany.queryOptions({
-      limit,
-      offset: nextPageOffset,
-      opponentFactionSlugs,
-      tagSlugs,
-      factionSlug,
-    }),
-    enabled: hasNextPage,
-    staleTime: 5000,
-  });
 
   // Calculate current page and total pages
   const currentPage = Math.floor(offset / limit) + 1;
@@ -156,22 +120,9 @@ function BuildOrderList({
     paginationItemsToDisplay: 5,
   });
 
-  const handlePageChange = (page: number) => {
-    startTransition(() => {
-      const newOffset = (page - 1) * limit;
-      navigate({
-        search: (prev) => ({
-          ...prev,
-          offset: newOffset,
-        }),
-        replace: true,
-      });
-    });
-  };
-
   return (
     <div className="container mx-auto">
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {buildOrdersData.data.map((buildOrder) => (
           <BuildOrderItem buildOrder={buildOrder} key={buildOrder.id} />
         ))}
@@ -194,8 +145,12 @@ function BuildOrderList({
                   aria-disabled={currentPage === 1}
                   aria-label="Go to first page"
                   className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
-                  isDisabled={currentPage === 1 || isTransitioning}
-                  onClick={() => handlePageChange(1)}
+                  isDisabled={currentPage === 1}
+                  search={(prev) => ({
+                    ...prev,
+                    offset: 0,
+                  })}
+                  to="/build-orders"
                 >
                   <ChevronFirstIcon aria-hidden="true" size={16} />
                 </PaginationLink>
@@ -207,8 +162,12 @@ function BuildOrderList({
                   aria-disabled={currentPage === 1}
                   aria-label="Go to previous page"
                   className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
-                  isDisabled={currentPage === 1 || isTransitioning}
-                  onClick={() => handlePageChange(currentPage - 1)}
+                  isDisabled={currentPage === 1}
+                  search={(prev) => ({
+                    ...prev,
+                    offset: (currentPage - 2) * limit,
+                  })}
+                  to="/build-orders"
                 >
                   <ChevronLeftIcon aria-hidden="true" size={16} />
                 </PaginationLink>
@@ -226,7 +185,11 @@ function BuildOrderList({
                 <PaginationItem key={page}>
                   <PaginationLink
                     isActive={page === currentPage}
-                    onClick={() => handlePageChange(page)}
+                    search={(prev) => ({
+                      ...prev,
+                      offset: (page - 1) * limit,
+                    })}
+                    to="/build-orders"
                   >
                     {page}
                   </PaginationLink>
@@ -246,8 +209,12 @@ function BuildOrderList({
                   aria-disabled={currentPage === totalPages}
                   aria-label="Go to next page"
                   className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
-                  isDisabled={currentPage === totalPages || isTransitioning}
-                  onClick={() => handlePageChange(currentPage + 1)}
+                  isDisabled={currentPage === totalPages}
+                  search={(prev) => ({
+                    ...prev,
+                    offset: currentPage * limit,
+                  })}
+                  to="/build-orders"
                 >
                   <ChevronRightIcon aria-hidden="true" size={16} />
                 </PaginationLink>
@@ -259,8 +226,12 @@ function BuildOrderList({
                   aria-disabled={currentPage === totalPages}
                   aria-label="Go to last page"
                   className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
-                  isDisabled={currentPage === totalPages || isTransitioning}
-                  onClick={() => handlePageChange(totalPages)}
+                  isDisabled={currentPage === totalPages}
+                  search={(prev) => ({
+                    ...prev,
+                    offset: (totalPages - 1) * limit,
+                  })}
+                  to="/build-orders"
                 >
                   <ChevronLastIcon aria-hidden="true" size={16} />
                 </PaginationLink>
@@ -273,4 +244,5 @@ function BuildOrderList({
   );
 }
 
-export default BuildOrderListContainer;
+// Export Loading as a static property of BuildOrderList
+BuildOrderList.Loading = Loading;
